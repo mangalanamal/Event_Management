@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Event_Management</RootNamespace>
+    <PackageId>EventManagement</PackageId>
+    <Authors>EventManagement</Authors>
+    <Product>EventManagement</Product>
+    <AssemblyName>EventManagement</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
