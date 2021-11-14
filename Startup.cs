@@ -1,5 +1,6 @@
 using Event_Management.Models;
 using Event_Management.MongodbContext;
+using Event_Management.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,14 +26,27 @@ namespace Event_Management
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var mongoDbSetting = Configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
-            
-            //services.AddSingleton<IDatabaseSettings>(x => x.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-            //services.AddSingleton<MasterUserService>();
+            services.Configure<DatabaseSettings>(
+           Configuration.GetSection(nameof(DatabaseSettings)));
 
+            services.AddSingleton<IDatabaseSettings>(sp =>
+             sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddSingleton<EventService>();
+
+            var mongoDbSetting = Configuration.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-                mongoDbSetting.ConnectionString, mongoDbSetting.DatabaseName
-                );
+                mongoDbSetting.ConnectionString, mongoDbSetting.DatabaseName);
+
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+          
             services.AddControllersWithViews();
         }
 
@@ -51,8 +65,9 @@ namespace Event_Management
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
