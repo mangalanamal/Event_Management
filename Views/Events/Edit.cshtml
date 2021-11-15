@@ -1,0 +1,214 @@
+﻿@model Event_Management.Models.EventsCreateViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col d-flex justify-content-center">
+    @if (ViewBag.Message != null)
+    {
+        <div class="p-1 mb-2 bg-success text-white">@ViewBag.Message</div>
+    }
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Add Events</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-6" style="display:none">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" value="@Html.Raw(Model.Id)" />
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="EventName" class="control-label"></label>
+                        <input asp-for="EventName" class="form-control" value="@Html.Raw(Model.EventName)" />
+                        <span asp-validation-for="EventName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control" value="@Html.Raw(Model.Location)" />
+                        <span asp-validation-for="Location" class="text-danger" placehoder="Location"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Date" class="control-label"></label>
+                        @if (Model.Date == null)
+                        {
+                            <input asp-for="Date" type="date" class="form-control" value="" disabled />
+                        }
+                        else
+                        {
+                            <input asp-for="Date" type="date" class="form-control" />
+                        }
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="card form-group col-md-12">
+                        <div class="card-body">
+                            @if (Model.Recarsive == true)
+                            {
+                                <input class="form-check-input" asp-for="Recarsive" value="true" /><lable class="form-check-lab">Recarsive</lable>
+
+
+
+                            }
+                            else
+                            {
+                                <input class="form-check-input" asp-for="Recarsive" disabled /> <lable class="form-check-lab">Recarsive</lable>
+                            }</br>
+                            <div class="form-row">
+
+                                <div class="form-group col-md-2">
+                                    @if (Model.M == true)
+                                    {
+                                        <input class="form-check-input" asp-for="M" /> <lable class="form-check-lab">M</lable>
+                                    }
+                                </div>
+                                <div class="form-group col-md-2">
+                                    @if (true)
+                                    {
+                                        <input class="form-check-input" asp-for="T" /> <lable class="form-check-lab">T</lable>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" asp-for="T" disabled /> <lable class="form-check-lab">T</lable>
+                                    }
+                                </div>
+                                <div class="form-group col-md-2">
+                                    @if (true)
+                                    {
+                                        <input class="form-check-input" asp-for="W" /> <lable class="form-check-lab">W</lable>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" asp-for="W" disabled /> <lable class="form-check-lab">W</lable>
+                                    }
+                                </div>
+                                <div class="form-group col-md-2">
+                                    @if (true)
+                                    {
+                                        <input class="form-check-input" asp-for="TH" /> <lable class="form-check-lab">TH</lable>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" asp-for="TH" disabled /> <lable class="form-check-lab">TH</lable>
+                                    }
+                                </div>
+                                <div class="form-group col-md-2">
+                                    @if (true)
+                                    {
+                                        <input class="form-check-input" asp-for="F" /> <lable class="form-check-lab">F</lable>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" asp-for="F" disabled /> <lable class="form-check-lab">F</lable>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="StartDate" class="control-label"></label>
+                                    @if (Model.StartDate != null)
+                                    {
+                                        <input asp-for="StartDate" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="StartDate" class="form-control" disabled />
+                                    }
+                                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label asp-for="EndDate" class="control-label"></label>
+                                    @if (Model.EndDate != null)
+                                    {
+                                        <input asp-for="EndDate" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="EndDate" class="form-control" disabled />
+                                    }
+                                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="ImageFile" accept="image/png,image/jpeg"  onchange="previewImg(this)"/>
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @if (Model.ImageName != "")
+                        {
+                            <img src=@("~/Image/"+Model.ImageName ) id="prv" asp-append-version="true" width="200px" height="200px" />
+                        }
+                        else
+                        {
+                            <img src="~/Image/default.jpg" id="prv" asp-append-version="true" width="200px" height="200px" />
+                        }
+
+                    </div>
+                </div>
+                    <button class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#Recarsive").change(function () {
+            var status = $('#Recarsive').is(":checked")
+            if (status) {
+                $("#Date").val("");
+                $("#Date").prop('disabled', true);
+                $("#M").prop('disabled', false);
+                $("#T").prop('disabled', false);
+                $("#W").prop('disabled', false);
+                $("#TH").prop('disabled', false);
+                $("#F").prop('disabled', false);
+                $("#StartDate").prop('disabled', false);
+                $("#EndDate").prop('disabled', false);
+
+            } else {
+                $("#Date").val("");
+                $("#Date").prop('disabled', false);
+                $("#M").prop('disabled', true);
+                $("#T").prop('disabled', true);
+                $("#W").prop('disabled', true);
+                $("#TH").prop('disabled', true);
+                $("#F").prop('disabled', true);
+                $("#StartDate").prop('disabled', true);
+                $("#EndDate").prop('disabled', true);
+            }
+        });
+    });
+
+    function previewImg(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#prv').prop('src', e.target.result)
+                    .width(200)
+                    .height(200);
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#prv').prop('src', 'image/default.jpg');
+        }
+    };
+</script>

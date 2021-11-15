@@ -38,15 +38,9 @@ namespace Event_Management
                 mongoDbSetting.ConnectionString, mongoDbSetting.DatabaseName);
 
             services.AddDistributedMemoryCache();
+                     
+            services.AddSession();
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
-          
             services.AddControllersWithViews();
         }
 
@@ -64,7 +58,6 @@ namespace Event_Management
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
