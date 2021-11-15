@@ -5,19 +5,9 @@
 }
 <style>
     .login-container {
-        margin-top: 5%;
+        margin-top: 15%;
         margin-bottom: 5%;
     }
-
-    .login-form-1 {
-        padding: 5%;
-        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
-    }
-
-        .login-form-1 h3 {
-            text-align: center;
-            color: #333;
-        }
 
     .login-form-2 {
         padding: 5%;
@@ -42,11 +32,7 @@
         cursor: pointer;
     }
 
-    .login-form-1 .btnSubmit {
-        font-weight: 600;
-        color: #fff;
-        background-color: #0062cc;
-    }
+ 
 
     .login-form-2 .btnSubmit {
         font-weight: 600;
@@ -60,23 +46,21 @@
         text-decoration: none;
     }
 
-    .login-form-1 .ForgetPwd {
-        color: #0062cc;
-        font-weight: 600;
-        text-decoration: none;
-    }
+  
 </style>
-<div class="col-md-6 login-form-2">
-
-    <h3>Login</h3>
-    <div class="text-danger" asp-validation-summary="All"></div>
-    <form method="post">
-        <div class="form-group">
-            <input name="email" type="email" class="form-control" required/>
-        </div>
-        <div class="form-group">
-            <input name="password" type="password" class="form-control" required />
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-    </form>
+<div class="col d-flex justify-content-center ">
+    <div class="login-form-2">
+        <h3>Login</h3>
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <form method="post">
+            <div class="form-group">
+                <input name="email" type="email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <input name="password" type="password" class="form-control" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Log In</button>
+        </form>
+    </div>
+ 
 </div>
