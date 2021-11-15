@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<hr />
 
+@if (ViewBag.Message != null)
+{
+    <div class="p-1 mb-2 bg-success text-white">@ViewBag.Message</div>
+}<hr />
 <div class="col d-flex justify-content-center">
-    @if (ViewBag.Message != null)
-    {
-        <div class="p-1 mb-2 bg-success text-white">@ViewBag.Message</div>
-    }
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Add Events</h6>
