@@ -53,12 +53,12 @@ namespace Event_Management.Controllers
                     string wwwRootPath = _hostEnviroment.WebRootPath;
                     string[] days = { };
 
-                    if (!string.IsNullOrEmpty(events.ImageFile.FileName))
+                    if (events.ImageFile != null)
                     {
                         string imgFileName = Path.GetFileNameWithoutExtension(events.ImageFile.FileName);
                         string extension = Path.GetExtension(events.ImageFile.FileName);
                         imgFileName = imgFileName + DateTime.Now.ToString("yyMMssfff") + extension;
-                        string path = Path.Combine(wwwRootPath + "\\Image", imgFileName);
+                        string path = Path.Combine(wwwRootPath , "Image", imgFileName);
 
                         using (var fileStream = new FileStream(path, FileMode.Create))
                         {
@@ -132,7 +132,7 @@ namespace Event_Management.Controllers
 
             }
 
-            return View();
+            return RedirectToAction("Index", "Events");
         }
 
         public IActionResult Edit(string Id)
@@ -200,19 +200,19 @@ namespace Event_Management.Controllers
 
                         if (ev.ImageName != null && ev.ImageName != "default")
                         {
-                            var oldImg = Path.Combine(wwwRootPath + "\\Image", ev.ImageName);
+                            var oldImg = Path.Combine(wwwRootPath , "Image", ev.ImageName);
                             if (System.IO.File.Exists(oldImg))
                             {
                                 System.IO.File.Delete(oldImg);
                             }
                         }
 
-                        if (!string.IsNullOrEmpty(events.ImageFile.FileName))
+                        if (events.ImageFile != null)
                         {
                             string imgFileName = Path.GetFileNameWithoutExtension(events.ImageFile.FileName);
                             string extension = Path.GetExtension(events.ImageFile.FileName);
                             imgFileName = imgFileName + DateTime.Now.ToString("yyMMssfff") + extension;
-                            string path = Path.Combine(wwwRootPath + "\\Image", imgFileName);
+                            string path = Path.Combine(wwwRootPath , "Image", imgFileName);
 
                             using (var fileStream = new FileStream(path, FileMode.Create))
                             {
@@ -293,7 +293,7 @@ namespace Event_Management.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(string id)
+        public IActionResult DeleteConfirm(string id)
         {
             string wwwRootPath = _hostEnviroment.WebRootPath;
 
@@ -301,7 +301,7 @@ namespace Event_Management.Controllers
 
             if (ev.ImageName != null && ev.ImageName != "default")
             {
-                var oldImg = Path.Combine(wwwRootPath + "\\Image", ev.ImageName);
+                var oldImg = Path.Combine(wwwRootPath ,"Image", ev.ImageName);
                 if (System.IO.File.Exists(oldImg))
                 {
                     System.IO.File.Delete(oldImg);
