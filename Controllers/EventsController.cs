@@ -52,17 +52,28 @@ namespace Event_Management.Controllers
                     var obj = new EventModel();
                     string wwwRootPath = _hostEnviroment.WebRootPath;
                     string[] days = { };
-                    string imgFileName = Path.GetFileNameWithoutExtension(events.ImageFile.FileName);
-                    string extension = Path.GetExtension(events.ImageFile.FileName);
-                    imgFileName = imgFileName + DateTime.Now.ToString("yyMMssfff") + extension;
-                    string path = Path.Combine(wwwRootPath + "\\Image", imgFileName);
 
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    if (!string.IsNullOrEmpty(events.ImageFile.FileName))
                     {
-                        await events.ImageFile.CopyToAsync(fileStream);
+                        string imgFileName = Path.GetFileNameWithoutExtension(events.ImageFile.FileName);
+                        string extension = Path.GetExtension(events.ImageFile.FileName);
+                        imgFileName = imgFileName + DateTime.Now.ToString("yyMMssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "\\Image", imgFileName);
+
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await events.ImageFile.CopyToAsync(fileStream);
+                        }
+                        obj.ImageName = imgFileName;
+                    }
+                    else
+                    {
+                        obj.ImageName = "";
                     }
 
-                    obj.ImageName = imgFileName;
+
+
+
                     obj.EventName = events.EventName;
                     obj.Location = events.Location;
                     obj.UserID = HttpContext.Session.GetString("UserId");
@@ -196,7 +207,7 @@ namespace Event_Management.Controllers
                             }
                         }
 
-                        if (events.ImageFile.FileName != null)
+                        if (!string.IsNullOrEmpty(events.ImageFile.FileName))
                         {
                             string imgFileName = Path.GetFileNameWithoutExtension(events.ImageFile.FileName);
                             string extension = Path.GetExtension(events.ImageFile.FileName);
@@ -207,7 +218,6 @@ namespace Event_Management.Controllers
                             {
                                 await events.ImageFile.CopyToAsync(fileStream);
                             }
-
                             ev.ImageName = imgFileName;
                         }
                         else
@@ -274,6 +284,34 @@ namespace Event_Management.Controllers
             return RedirectToAction("Index", "Events");
         }
 
+        public IActionResult Delete(string id)
+        {
+            var item = _eventService.Get(id);
+
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirm(string id)
+        {
+            string wwwRootPath = _hostEnviroment.WebRootPath;
+
+            var ev = _eventService.Get(id);
+
+            if (ev.ImageName != null && ev.ImageName != "default")
+            {
+                var oldImg = Path.Combine(wwwRootPath + "\\Image", ev.ImageName);
+                if (System.IO.File.Exists(oldImg))
+                {
+                    System.IO.File.Delete(oldImg);
+                }
+            }
+
+            _eventService.Remove(id);
+
+            return RedirectToAction("Index", "Events");
+        }
 
     }
 }
