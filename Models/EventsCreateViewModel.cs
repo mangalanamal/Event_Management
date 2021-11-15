@@ -9,6 +9,7 @@ namespace Event_Management.Models
 {
     public class EventsCreateViewModel
     {      
+        public string Id { get; set; }
         public string EventName { get; set; }
         public string Location { get; set; }
         public DateTime? Date { get; set; }

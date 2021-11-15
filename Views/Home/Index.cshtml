@@ -1,5 +1,40 @@
-﻿@{
+﻿@model IEnumerable<Event_Management.Models.EventModel>
+@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    if (User.Identity.IsAuthenticated != false)
+    {
+        if (Model != null)
+        {
+            <div class="card-deck">
+                @foreach (var i in Model)
+                {
+                    <div class="card col-sm-4 border-dark">
+                        @if (i.ImageName != "")
+                        {
+                            <img src="@("Image/"+i.ImageName)" class="card-img-top" width="250px" height="250px">
+                        }
+                        else
+                        {
+                            <img src="Image/default.jpg" class="card-img-top" alt="...">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@i.EventName</h5>
+                            <p class="card-text">@i.Location</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="Events/Edit/@i.Id" class="btn btn-primary btn-block">Edit</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        }
+
+    }
+
+
+}
